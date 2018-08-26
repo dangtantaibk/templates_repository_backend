@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="debug">
+  <Appenders>
+    <Console name="Console-Appender" target="SYSTEM_OUT">
+      <PatternLayout>
+        <pattern>
+          %d{dd MMM yyyy HH:mm:ss,SSS} {%t} %-5p %c %x %X{CORRELATION_ID} - %m%n
+        </pattern>>
+      </PatternLayout>
+    </Console>
+
+    <RollingFile name="RollingFileAppender">
+      <FileName>/tmp/vievie/vievie_content_service.log</FileName>
+      <FilePattern>/tmp/vievie/vievie_content_service.log.%d{yyyy-MM-dd}.gz</FilePattern>
+      <PatternLayout>
+        <Pattern>%d{dd MMM yyyy HH:mm:ss,SSS} {%t} %-5p %c %x %X{CORRELATION_ID} - %m%n</Pattern>
+      </PatternLayout>
+      <Policies>
+        <TimeBasedTriggeringPolicy />
+      </Policies>
+      <DefaultRolloverStrategy max="30" />
+    </RollingFile>
+
+    <Sentry name="SentryAppender"/>
+  </Appenders>
+
+  <Loggers>
+    <Logger name="net.youthdev.vievie" level="DEBUG">
+      <AppenderRef ref="RollingFileAppender"/>
+    </Logger>
+    <Logger name="com.mchange.v2" level="off" additivity="false">
+      <AppenderRef ref="RollingFileAppender"/>
+    </Logger>
+    <Logger name="org.hibernate" level="error">
+      <AppenderRef ref="RollingFileAppender"/>
+    </Logger>
+    <Logger name="org.hibernate.engine.internal.StatisticalLoggingSessionEventListener" level="info">
+      <AppenderRef ref="RollingFileAppender"/>
+    </Logger>
+    <Logger name="org.apache.http" level="error" additivity="false">
+      <AppenderRef ref="RollingFileAppender"/>
+    </Logger>
+    <Logger name="org.apache.commons.beanutils" level="error" additivity="false">
+      <AppenderRef ref="RollingFileAppender"/>
+    </Logger>
+    <Logger name="org.apache.commons.beanutils.converters" level="info" additivity="false">
+      <AppenderRef ref="RollingFileAppender"/>
+    </Logger>
+    <Logger name="log4j.logger.org.hibernate.SQL" level="debug" additivity="false">
+      <AppenderRef ref="RollingFileAppender"/>
+    </Logger>
+    <Logger name="log4j.logger.org.hibernate.type" level="trace" additivity="false">
+      <AppenderRef ref="RollingFileAppender"/>
+    </Logger>
+    <Root level="debug">
+      <AppenderRef ref="Console-Appender"/>
+      <AppenderRef ref="RollingFileAppender"/>
+      <AppenderRef ref="SentryAppender" level="ERROR"/>
+    </Root>
+  </Loggers>
+</Configuration>
